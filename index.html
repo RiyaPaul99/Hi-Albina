@@ -9,6 +9,7 @@
       text-align: center;
       margin-top: 100px;
       background-color: #fef6f9;
+      overflow: hidden;
     }
 
     h1 {
@@ -24,19 +25,38 @@
       cursor: pointer;
     }
 
-    /* YES button (disabled look) */
     #yesBtn {
-      background-color: #ccc;
-      color: #666;
-      cursor: not-allowed;
-      pointer-events: none; /* makes it unclickable */
+      background-color: #28a745;
+      color: white;
     }
 
-    /* NO button (moves away 😈) */
     #noBtn {
       background-color: #ff4d6d;
       color: white;
       position: absolute;
+    }
+
+    #message {
+      font-size: 2rem;
+      margin-top: 30px;
+      color: #ff4081;
+      display: none;
+    }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      top: 0;
+      animation: fall 3s linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+      }
     }
   </style>
 </head>
@@ -47,15 +67,38 @@
   <button id="yesBtn">Yes</button>
   <button id="noBtn">No</button>
 
+  <div id="message">🎉 Yayyy thanks!!! 🎉</div>
+
   <script>
     const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const message = document.getElementById("message");
 
+    // No button runs away 😈
     noBtn.addEventListener("mouseover", () => {
       const x = Math.random() * window.innerWidth * 0.8;
       const y = Math.random() * window.innerHeight * 0.8;
 
       noBtn.style.left = x + "px";
       noBtn.style.top = y + "px";
+    });
+
+    // Yes button celebration 🎉
+    yesBtn.addEventListener("click", () => {
+      message.style.display = "block";
+
+      // Create confetti
+      for (let i = 0; i < 100; i++) {
+        let confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.backgroundColor = 
+          "hsl(" + Math.random() * 360 + ", 100%, 50%)";
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + "s";
+
+        document.body.appendChild(confetti);
+      }
     });
   </script>
 
